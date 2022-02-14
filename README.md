@@ -8,3 +8,6 @@ Rsyslog for PLURA
     rsyslogd -N1
 
 
+### Reference
+
+https://www.rsyslog.com/doc/v8-stable/configuration/templates.html

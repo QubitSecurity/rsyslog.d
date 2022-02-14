@@ -1,13 +1,16 @@
 {
-  "timegenerated": "2022-02-14T10:06:25.198930+09:00",
-  "programname": "SNIPER",
-  "hostname": "xxx.xxx.xxx.yyy",
-  "syslogtag": "",
-  "pri": "36",
-  "pri-text": "auth.warning",
-  "syslogfacility": "4",
-  "syslogfacility-text": "auth",
-  "syslogseverity": "4",
-  "syslogseverity-text": "warning",
-  "msg": " msgnum:00000000:"
+  "ceelog": {
+  {
+    "timegenerated": "2022-02-14T10:06:25.198930+09:00",
+    "programname": "SNIPER",
+    "hostname": "xxx.xxx.xxx.yyy",
+    "syslogtag": "",
+    "pri": "36",
+    "pri-text": "auth.warning",
+    "syslogfacility": "4",
+    "syslogfacility-text": "auth",
+    "syslogseverity": "4",
+    "syslogseverity-text": "warning",
+    "msg": " msgnum:00000000:"
+  }
 }

@@ -1,5 +1,5 @@
 # Check
 
-### After modifying rsyslog.conf, you must check the config.
+### After modifying rsyslog.conf, must check the config.
 
   rsyslogd -N1

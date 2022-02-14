@@ -1,8 +1,8 @@
-# Check
-
-### After modifying rsyslog.conf, must check the config.
+# Rsyslog
+Rsyslog for PLURA
 
 ### 1. Run
 
-  rsyslogd -N1
+    rsyslogd -N1
+
 

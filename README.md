@@ -33,3 +33,5 @@ Example using postfix rsyslog.conf
 ### Reference
 
 https://www.rsyslog.com/doc/v8-stable/configuration/templates.html
+
+https://www.rsyslog.com/doc/v8-stable/rainerscript/control_structures.html

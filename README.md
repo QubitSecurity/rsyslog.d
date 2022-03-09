@@ -20,6 +20,9 @@ Rsyslog for PLURA
 
 #### 3.1 Change @PLURA_Log_Collector_Server:514
 
+    if $programname == 'postfix' then @PLURA_Log_Collector_Server:514 #UDP
+    :programname, isequal, "postfix"  ~
+    
     systemctl restart rsyslog
 
 ### 4. Check on PLURA Log Collector Server

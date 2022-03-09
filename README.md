@@ -1,5 +1,5 @@
 # Rsyslog
-Rsyslog for PLURA
+Example using postfix rsyslog.conf 
 
 ### After modifying rsyslog.conf, we must check the config.
 

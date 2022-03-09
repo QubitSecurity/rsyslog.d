@@ -9,13 +9,13 @@ Rsyslog for PLURA
 
 ### 2. Configure PLURA Log Collector Server to receive logs from Client Servers.
 
-    rsyslog.d/v8-stable/plain/70-imudp-plura.conf
+    curl https://raw.githubusercontent.com/QubitSecurity/rsyslog.d/main/v8-stable/plain/70-imudp-plura.conf -o /etc/rsyslog.d/
     
     systemctl restart rsyslog
 
 ### 3. Configure Client Servers
 
-    rsyslog.d/v8-stable/plain/80-postfix.conf
+    curl https://raw.githubusercontent.com/QubitSecurity/rsyslog.d/main/v8-stable/plain/80-postfix.conf -o /etc/rsyslog.d/
     
 
 #### 3.1 Change @PLURA_Log_Collector_Server:514

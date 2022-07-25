@@ -35,3 +35,5 @@ Example using postfix rsyslog.conf
 #### 1) https://www.rsyslog.com/doc/v8-stable/configuration/templates.html
 
 #### 2) https://www.rsyslog.com/doc/v8-stable/rainerscript/control_structures.html
+
+#### 3) https://kifarunix.com/a-basic-introduction-to-rsyslog-filters/2/

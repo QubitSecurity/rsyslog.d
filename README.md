@@ -25,7 +25,12 @@ Example using postfix rsyslog.conf
     
     systemctl restart rsyslog
 
-### 4. Check on PLURA Log Collector Server
+#### 3.2 Allow service ports
+
+    firewall-cmd --add-port={514/tcp,514/udp} --permanent
+    firewall-cmd --reload
+
+### 5. Check on PLURA Log Collector Server
 
     ls -al /var/log/plura/
 

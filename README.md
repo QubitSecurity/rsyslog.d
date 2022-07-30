@@ -28,6 +28,8 @@ Example using postfix rsyslog.conf
 ### 4. Configure Server
 
     curl https://raw.githubusercontent.com/QubitSecurity/rsyslog.d/main/v8-stable/plain/99-fromhost_ip_msgonly.conf -o /etc/rsyslog.d/
+    
+     systemctl restart rsyslog
 
 #### 4.1 Allow service ports on Server
 

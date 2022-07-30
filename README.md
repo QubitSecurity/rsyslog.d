@@ -13,7 +13,7 @@ Example using postfix rsyslog.conf
     
     systemctl restart rsyslog
 
-### 3. Configure Client Servers
+### 3. Configure Client
 
     curl https://raw.githubusercontent.com/QubitSecurity/rsyslog.d/main/v8-stable/plain/80-postfix.conf -o /etc/rsyslog.d/
     
@@ -25,7 +25,11 @@ Example using postfix rsyslog.conf
     
     systemctl restart rsyslog
 
-#### 3.2 Allow service ports
+### 4. Configure Server
+
+    curl https://raw.githubusercontent.com/QubitSecurity/rsyslog.d/main/v8-stable/plain/99-fromhost_ip_msgonly.conf -o /etc/rsyslog.d/
+
+#### 4.1 Allow service ports on Server
 
     firewall-cmd --add-port={514/tcp,514/udp} --permanent
     firewall-cmd --reload

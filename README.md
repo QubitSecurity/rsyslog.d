@@ -48,3 +48,5 @@ Example using postfix rsyslog.conf
 #### 2) https://www.rsyslog.com/doc/v8-stable/rainerscript/control_structures.html
 
 #### 3) https://kifarunix.com/a-basic-introduction-to-rsyslog-filters/2/
+
+#### 4) https://docs.docker.com/config/containers/logging/syslog/

@@ -5,7 +5,7 @@ Example using postfix rsyslog.conf
 
 ### 1. Run/debug configuration
 
-    rsyslogd -N1
+    rsyslogd -N 1
 
 ### 2. Configure PLURA Log Collector Server to receive logs from Client Servers.
 

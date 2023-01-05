@@ -50,3 +50,5 @@ Example using postfix rsyslog.conf
 #### 3) https://kifarunix.com/a-basic-introduction-to-rsyslog-filters/2/
 
 #### 4) https://docs.docker.com/config/containers/logging/syslog/
+
+#### 5) https://www.ibm.com/support/pages/qradar-how-configure-rsyslog-ubuntu-forward-apache-http-access-logs

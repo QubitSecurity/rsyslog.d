@@ -20,8 +20,7 @@ Example using postfix rsyslog.conf
 
 #### 3.1 Change @PLURA_Log_Collector_Server:514
 
-    if $programname == 'postfix' then @PLURA_Log_Collector_Server:514 #UDP
-    :programname, isequal, "postfix"  ~
+    local7.info     @PLURA_Log_Collector_Server:514
     
     systemctl restart rsyslog
 

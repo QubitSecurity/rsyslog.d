@@ -40,7 +40,7 @@ Example using postfix rsyslog.conf
     ls -al /var/log/plura/
 
 
-### Reference
+### Useful Links
 
 #### 1) https://www.rsyslog.com/doc/v8-stable/configuration/templates.html
 

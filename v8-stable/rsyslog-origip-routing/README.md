@@ -75,7 +75,7 @@ flowchart LR
     B -->|"[origip=1.1.1.1] 스탬핑"| C
     C -->|NAT 변환 후 전송| D
     D -->|origip 추출/Prefix 제거| E
-    D -->|Agentless 수집| F
+    D -->|Agent 수집| F
 ```
 
 ### 메시지 변환 예시

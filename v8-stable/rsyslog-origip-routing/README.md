@@ -64,11 +64,18 @@ PLC rsyslog는 이 값을 추출하여:
 
 ```mermaid
 flowchart LR
-  A[수집 시스템<br/>1.1.1.1] -->|Syslog 전송| B[중간 rsyslog<br/>(NAT 이전)]
-  B -->|메시지에 origip 스탬핑<br/>[origip=1.1.1.1]| C[망연계/NAT<br/>192.168.10.1]
-  C -->|NAT 이후 전송| D[PLC rsyslog]
-  D -->|origip 추출 + prefix 제거| E[/var/log/1.1.1.1.log/]
-  D -->|Agentless 수집| F[PLURA]
+    A["🌐 수집 시스템<br/>(1.1.1.1)"] 
+    B["📡 중간 rsyslog<br/>(NAT 이전)"]
+    C["🛡️ 망연계/NAT<br/>(192.168.10.1)"]
+    D["⚙️ PLC rsyslog"]
+    E["📄 /var/log/1.1.1.1.log"]
+    F["🔍 PLURA"]
+
+    A -->|Syslog 전송| B
+    B -->|"[origip=1.1.1.1] 스탬핑"| C
+    C -->|NAT 변환 후 전송| D
+    D -->|origip 추출/Prefix 제거| E
+    D -->|Agentless 수집| F
 ```
 
 ### 메시지 변환 예시

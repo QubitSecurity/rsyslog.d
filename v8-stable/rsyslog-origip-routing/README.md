@@ -57,6 +57,40 @@ PLC rsyslog는 이 값을 추출하여:
 
 ---
 
+
+## 구성도 (Mermaid)
+
+### 전체 흐름
+
+```mermaid
+flowchart LR
+  A[수집 시스템<br/>1.1.1.1] -->|Syslog 전송| B[중간 rsyslog<br/>(NAT 이전)]
+  B -->|메시지에 origip 스탬핑<br/>[origip=1.1.1.1]| C[망연계/NAT<br/>192.168.10.1]
+  C -->|NAT 이후 전송| D[PLC rsyslog]
+  D -->|origip 추출 + prefix 제거| E[/var/log/1.1.1.1.log/]
+  D -->|Agentless 수집| F[PLURA]
+```
+
+### 메시지 변환 예시
+
+```mermaid
+sequenceDiagram
+  participant S as 수집 시스템(1.1.1.1)
+  participant R as 중간 rsyslog(NAT 이전)
+  participant N as 망연계/NAT(192.168.10.1)
+  participant P as PLC rsyslog
+  participant L as 로그 파일(/var/log/1.1.1.1.log)
+
+  S->>R: syslog message
+  R->>N: [origip=1.1.1.1] + message
+  N->>P: (source IP가 192.168.10.1로 보임)
+  P->>P: origip=1.1.1.1 추출
+  P->>P: prefix([origip=...]) 제거
+  P->>L: clean message 저장
+```
+
+---
+
 ## PLC rsyslog 구성 핵심
 
 1. 메시지에서 `origip` 추출

@@ -2,22 +2,22 @@
 
 ## 개요
 
-망연계(NAT) 환경을 거치는 경우,  
+망연계(NAT) 환경을 거치는 경우,
 로그 수집 서버에서는 실제 송신자 IP가 아닌 변환된 IP가 기록됩니다.
 
-예시:
+### 예시 구성
 
-(수집 시스템) 1.1.1.1  
-→ (망연계) 192.168.10.1  
-→ PLC (rsyslog)  
+```
+(수집 시스템) 1.1.1.1
+→ (망연계) 192.168.10.1
+→ PLC (rsyslog, 172.16.16.16)
 → PLURA
+```
 
 이 경우 PLC에는 다음과 같이 저장됩니다:
 
 ```
-
 /var/log/192.168.10.1.log
-
 ```
 
 실제 원본 시스템(1.1.1.1)을 식별할 수 없습니다.
@@ -28,46 +28,71 @@
 
 ### 핵심 아이디어
 
-망연계 이전 구간에서 원본 IP를 메시지에 포함시킵니다.
+망연계 이전 구간(rsyslog Relay)에서
+원본 IP를 메시지에 포함시킵니다.
 
 예:
 
 ```
-
 [origip=1.1.1.1] user login failed
-
 ```
 
-PLC rsyslog는 이 값을 추출하여:
+PLC rsyslog(172.16.16.16)는 이 값을 추출하여:
 
-- 파일명: `/var/log/1.1.1.1.log`
-- 로그 본문에서는 `[origip=...]` 제거 후 저장
+* 파일명: `/var/log/1.1.1.1.log`
+* 로그 본문에서는 `[origip=...]` 제거 후 저장
+
+---
+
+## 실제 구성 IP 정리
+
+| 구분          | IP               |
+| ----------- | ---------------- |
+| 수집 시스템      | 1.1.1.1          |
+| NAT 장비      | 192.168.10.1     |
+| PLC rsyslog | **172.16.16.16** |
+
+중간 rsyslog relay 설정 파일:
+
+```
+conf/10-relay-add-origip.conf
+```
+
+PLC rsyslog 설정 파일:
+
+```
+conf/20-plc-route-by-origip.conf
+```
+
+relay 설정 내 목적지 IP는 반드시 다음과 일치해야 합니다:
+
+```
+target="172.16.16.16"
+```
 
 ---
 
 ## 동작 흐름
 
 ```
-
 1.1.1.1 → rsyslog (origip 추가)
 → NAT (IP 변경)
-→ PLC rsyslog (origip 기반 동적 파일 생성)
-
+→ PLC rsyslog (172.16.16.16)
+→ PLURA
 ```
 
 ---
 
+# 구성도 (Mermaid)
 
-## 구성도 (Mermaid)
-
-### 전체 흐름
+## 전체 흐름
 
 ```mermaid
 flowchart LR
     A["🌐 수집 시스템<br/>(1.1.1.1)"] 
     B["📡 중간 rsyslog<br/>(NAT 이전)"]
     C["🛡️ 망연계/NAT<br/>(192.168.10.1)"]
-    D["⚙️ PLC rsyslog"]
+    D["⚙️ PLC rsyslog<br/>(172.16.16.16)"]
     E["📄 /var/log/1.1.1.1.log"]
     F["🔍 PLURA"]
 
@@ -78,14 +103,16 @@ flowchart LR
     D -->|Agent 수집| F
 ```
 
-### 메시지 변환 예시
+---
+
+## 메시지 변환 예시
 
 ```mermaid
 sequenceDiagram
   participant S as 수집 시스템(1.1.1.1)
   participant R as 중간 rsyslog(NAT 이전)
   participant N as 망연계/NAT(192.168.10.1)
-  participant P as PLC rsyslog
+  participant P as PLC rsyslog(172.16.16.16)
   participant L as 로그 파일(/var/log/1.1.1.1.log)
 
   S->>R: syslog message
@@ -103,29 +130,33 @@ sequenceDiagram
 1. 메시지에서 `origip` 추출
 2. Dynamic File Template 사용
 3. prefix 제거 후 저장
+4. origip 없을 경우 fallback 처리
 
 ---
 
 ## 기대 효과
 
-- NAT 환경에서도 원본 시스템 식별 가능
-- 파일명 기반 시스템 구분 유지
-- 기존 구조 변경 최소화
-- PLURA 연동 시 정확한 시스템 매핑 가능
+* NAT 환경에서도 원본 시스템 식별 가능
+* 파일명 기반 시스템 구분 유지
+* 기존 구조 변경 최소화
+* PLURA 연동 시 정확한 시스템 매핑 가능
+* relay → PLC IP 경로 명확화 (172.16.16.16)
 
 ---
 
 ## 주의 사항
 
-- 반드시 NAT 이전 구간에서 origip를 삽입해야 함
-- prefix 형식은 고정 권장 (`[origip=IP]`)
-- UDP 대신 TCP/RELP 사용 권장
+* 반드시 NAT 이전 구간에서 origip를 삽입해야 함
+* prefix 형식은 고정 권장 (`[origip=IP]`)
+* UDP 대신 TCP/RELP 사용 권장
+* relay 설정의 `target` IP는 PLC IP와 반드시 동일해야 함
 
 ---
 
 ## 결론
 
-NAT 환경에서는 네트워크 레벨에서 원본 IP 복구가 불가능합니다.  
+NAT 환경에서는 네트워크 레벨에서 원본 IP 복구가 불가능합니다.
 따라서 애플리케이션 레벨에서 원본 정보를 메시지에 포함시키는 방식이 가장 안정적입니다.
 
 ---
+
